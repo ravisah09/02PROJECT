@@ -80,6 +80,13 @@ return (
           foster sustainability with every click.
         </p>
 
+        <button
+  onClick={() => navigate("/SignUp")}
+  className="mt-10 bg-white text-sky-600 px-10 py-3 rounded-xl font-semibold hover:bg-gray-100 transition"
+>
+  Sign Up
+</button>
+
        
       </div>
 
@@ -169,6 +176,16 @@ return (
               {message}
             </p>
           )}
+
+          <p className="text-center mt-8 text-gray-600">
+            Don't have an account?{" "}
+           <span
+            onClick={() => navigate("/SignUp")}
+          className="text-sky-600 cursor-pointer font-semibold hover:underline"
+           >
+           Sign Up
+         </span>
+           </p>
 
           
 
