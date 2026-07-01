@@ -5,6 +5,7 @@ import Footer from "./component/Footer";
 import SignUp from "./component/SignUp";
 import Login from "./component/Login";
 import Profile from "./component/Profile";
+import EditProfile from "./component/EditProfile";
 
 function App() {
   return (
@@ -27,12 +28,12 @@ function App() {
 
         <Route
           path="/Profile"
-          element={
-            <>
-              <Profile />
-            
-            </>
-          }
+          element={<Profile />}
+        />
+
+        <Route
+          path="/edit-profile"
+          element={<EditProfile />}
         />
       </Routes>
     </>

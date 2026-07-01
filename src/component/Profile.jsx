@@ -1,45 +1,78 @@
+import { useNavigate } from "react-router-dom";
 import React, { useState, useEffect } from "react";
-import { Settings, Pencil, User, Shield, Phone, Mail, MapPin, Calendar, CreditCard } from "lucide-react";
+import {
+  Settings,
+  Pencil,
+  User,
+  Shield,
+  Phone,
+  Mail,
+  MapPin,
+  Calendar,
+  CreditCard,
+} from "lucide-react";
+
 
 function Profile() {
+const navigate = useNavigate();
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  
+  const updateProfile = (updatedData) => {
+    fetch("https://nodeproject1-aln7.onrender.com/api/auth/users/profile", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify(updatedData),
+    })
+      .then(async (res) => {
+        const data = await res.json();
 
-useEffect(() => {
+        if (!res.ok) {
+          throw new Error(data.message || "Update failed");
+        }
+
+        return data;
+      })
+      .then((data) => {
+        console.log("Updated:", data);
+        setProfile(data.user);
+        alert("Profile updated successfully ✅");
+      })
+      .catch((err) => {
+        console.error(err);
+        alert(err.message);
+      });
+  };
+
  
+  useEffect(() => {
+    fetch("https://nodeproject1-aln7.onrender.com/api/auth/users/profile", {
+      method: "GET",
+      credentials: "include",
+    })
+      .then(async (res) => {
+        const data = await res.json();
 
+        if (!res.ok) {
+          throw new Error(data.message || "Failed to fetch profile");
+        }
 
- fetch("https://nodeproject1-aln7.onrender.com/api/auth/users/profile", {
-  method: "GET",
-  credentials: "include",
-   
-})
-  .then(async (res) => {
-    console.log("Status:", res.status);
-
-    const data = await res.json();
-    console.log("Response:", data);
-
-    if (!res.ok) {
-      throw new Error(data.message || "Failed to fetch profile");
-    }
-
-    return data;
-  })
-  .then((data) => {
-    console.log("Profile Data:", data);
-
-    setProfile(data.user);
-    setLoading(false);
-  })
-  .catch((err) => {
-    console.error(err);
-    setError(err.message);
-    setLoading(false);
-  });
-}, []);
+        return data;
+      })
+      .then((data) => {
+        setProfile(data.user);
+        setLoading(false);
+      })
+      .catch((err) => {
+        setError(err.message);
+        setLoading(false);
+      });
+  }, []);
   
 
   if (loading) {
@@ -92,13 +125,16 @@ useEffect(() => {
             </div>
           </div>
           <div className="flex gap-2">
-            <button className="bg-white/20 hover:bg-white/30 p-2 rounded-full">
-              <Settings size={18} />
-            </button>
-            <button className="bg-white/20 hover:bg-white/30 p-2 rounded-full">
-              <Pencil size={18} />
-            </button>
-          </div>
+  <button className="bg-white/20 hover:bg-white/30 p-2 rounded-full">
+    <Settings size={18} />
+  </button>
+<button
+  onClick={() => navigate("/edit-profile")}
+  className="bg-white/20 hover:bg-white/30 p-2 rounded-full"
+>
+  <Pencil size={18} />
+</button>
+</div>
         </div>
 
        
